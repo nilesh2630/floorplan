@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-
 const Signup = () => {
   const [formData, setFormData] = useState({
     email: '',
@@ -10,7 +9,9 @@ const Signup = () => {
     confirmPassword: '',
   });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false); 
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -19,21 +20,22 @@ const Signup = () => {
       return;
     }
 
+    setLoading(true); 
+
     try {
       const { data } = await axios.post('https://floorplan.onrender.com/api/auth/signup', {
         email: formData.email,
         password: formData.password,
       });
 
-      // Store the JWT token in localStorage
       localStorage.setItem('token', data.token);
 
-      // Optional: Automatically log in after signup
-      // await login({ email: formData.email, password: formData.password });
-
-      navigate('/floor-plan'); // Redirect to dashboard
+     
+      navigate('/floor-plan');
     } catch (err) {
       setError(err.response?.data?.error || 'An error occurred');
+    } finally {
+      setLoading(false); 
     }
   };
 
@@ -51,6 +53,11 @@ const Signup = () => {
               {error}
             </div>
           )}
+
+          {loading && (
+            <div className="text-center text-blue-500 font-medium">Loading...</div>
+          )}
+
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <input
@@ -87,9 +94,12 @@ const Signup = () => {
           <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
+                loading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
+              } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+              disabled={loading}
             >
-              Sign up
+              {loading ? 'Loading....' : 'Sign up'}
             </button>
           </div>
         </form>
