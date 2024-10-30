@@ -2,7 +2,7 @@ const FloorPlan = require('../models/FloorPlan');
 
 exports.createFloorPlan = async (req, res) => {
   try {
-    console.log("j");
+    
     const { name, data } = req.body;
     const floorPlan = await FloorPlan.create({
       name,
@@ -17,7 +17,7 @@ exports.createFloorPlan = async (req, res) => {
 
 exports.getAllFloorPlans = async (req, res) => {
   try {
-    console.log("getall");
+
     const floorPlans = await FloorPlan.find()
       .populate('lastModifiedBy', 'email')
       .sort('-lastModifiedAt');

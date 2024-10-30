@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AlertCircle, Save, Upload, Grid, Edit, Trash2 } from 'lucide-react';
 import axios from 'axios';
 
-const API_URL = 'https://floorplan.onrender.com';
+const API_URL = 'https://floorplan.onrender.com/api';
 
 // Custom hook for managing offline state
 const useOfflineStatus = () => {
@@ -25,7 +25,7 @@ const useOfflineStatus = () => {
   return isOffline;
 };
 
-
+// Custom hook for managing offline changes
 const useOfflineChanges = () => {
   const [offlineChanges, setOfflineChanges] = useState([]);
 
@@ -130,7 +130,7 @@ const FloorPlanManagement = () => {
             const latestPlan = err.response.data.latestPlan;
             setError('Conflict detected. Please review the latest changes.');
       
-          
+            // Optionally, prompt the user with options to overwrite or refresh
             setSelectedPlan(latestPlan); // Load the latest plan for review
           } else {
             setError('Failed to update floor plan');
@@ -233,7 +233,7 @@ const FloorPlanManagement = () => {
     }}
   >
     <h2 className="flex justify-between items-center">
-      <span>{plan.name}</span>
+      <span>{plan.name}</span> {/* Displaying plan name */}
       <div className="flex gap-2">
         <button
           style={{ backgroundColor: 'transparent', border: 'none' }}

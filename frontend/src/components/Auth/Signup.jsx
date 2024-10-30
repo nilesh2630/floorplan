@@ -20,7 +20,7 @@ const Signup = () => {
     }
 
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/signup', {
+      const { data } = await axios.post('https://floorplan.onrender.com/api/auth/signup', {
         email: formData.email,
         password: formData.password,
       });

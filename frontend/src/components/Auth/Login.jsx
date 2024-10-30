@@ -14,7 +14,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', formData);
+      const response = await axios.post('https://floorplan.onrender.com/api/auth/login', formData);
 
       // Save the token in localStorage or any state management solution
       localStorage.setItem('token', response.data.token);
